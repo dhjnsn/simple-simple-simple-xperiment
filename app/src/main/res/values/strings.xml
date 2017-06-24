@@ -1,4 +1,11 @@
 <resources>
     <string name="app_name">Home Cloud</string>
     <string name="action_settings">Settings</string>
+    <string name="title_activity_settings">Settings</string>
+
+    <!-- Strings related to Settings -->
+    <string name="title_pref_aws_access_key">AWS access key ID</string>
+    <string name="title_pref_aws_secret_key">AWS secret access key</string>
+    <string name="title_pref_s3_bucket_name">S3 bucket name</string>
+
 </resources>

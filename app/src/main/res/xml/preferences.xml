@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <EditTextPreference
+        android:key="pref_aws_access_key"
+        android:title="@string/title_pref_aws_access_key" />
+    <EditTextPreference
+        android:key="pref_aws_secret_key"
+        android:title="@string/title_pref_aws_secret_key" />
+    <EditTextPreference
+        android:key="pref_s3_bucket_name"
+        android:title="@string/title_pref_s3_bucket_name" />
+</PreferenceScreen>
