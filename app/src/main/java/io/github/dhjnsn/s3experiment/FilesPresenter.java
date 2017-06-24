@@ -6,11 +6,6 @@ import android.os.Bundle;
 
 import java.util.List;
 
-/**
- * Created by dennis on 4/2/17.
- */
-
-
 class FilesPresenter implements LoaderManager.LoaderCallbacks<List<String>> {
 
     FilesView view;

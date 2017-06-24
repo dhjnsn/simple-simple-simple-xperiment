@@ -12,11 +12,6 @@ import com.amazonaws.services.s3.model.S3ObjectSummary;
 import java.util.ArrayList;
 import java.util.List;
 
-
-/**
- * Created by dennis on 4/5/17.
- */
-
 class FilesLoader extends AsyncTaskLoader<List<String>> {
 
     AmazonS3Client s3;
