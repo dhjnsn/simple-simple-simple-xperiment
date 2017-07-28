@@ -1,9 +1,14 @@
 package io.github.dhjnsn.s3experiment;
 
+import android.arch.lifecycle.LifecycleRegistry;
+import android.arch.lifecycle.LifecycleRegistryOwner;
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -17,10 +22,10 @@ import android.widget.TextView;
 
 import java.util.List;
 
-public class FilesActivity extends AppCompatActivity implements FilesView {
+public class FilesActivity extends AppCompatActivity implements LifecycleRegistryOwner {
 
-    FilesPresenter presenter;
-    ListViewAdapter listViewAdapter;
+    ListView listView;
+    private final LifecycleRegistry lifecycleRegistry = new LifecycleRegistry(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,18 +34,16 @@ public class FilesActivity extends AppCompatActivity implements FilesView {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        ListView listView = (ListView) findViewById(R.id.list_view);
-        listViewAdapter = new ListViewAdapter(this);
-        listView.setAdapter(listViewAdapter);
-        presenter = new FilesPresenter(this, new FilesLoader(getApplicationContext()));
-
-        getLoaderManager().initLoader(0, null, presenter);
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        presenter.loadFiles();
+        listView = (ListView) findViewById(R.id.list_view);
+        FilesViewModel viewModel = ViewModelProviders.of(this).get(FilesViewModel.class);
+        viewModel.getFiles().observe(this, new Observer<List<String>>() {
+            @Override
+            public void onChanged(@Nullable List<String> files) {
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(FilesActivity.this,
+                        android.R.layout.simple_list_item_1, android.R.id.text1, files);
+                FilesActivity.this.listView.setAdapter(adapter);
+            }
+        });
     }
 
     @Override
@@ -67,12 +70,10 @@ public class FilesActivity extends AppCompatActivity implements FilesView {
     }
 
     @Override
-    public void showFiles(List<String> files) {
-        listViewAdapter.clear();
-        listViewAdapter.addAll(files);
-        listViewAdapter.notifyDataSetChanged();
+    public LifecycleRegistry getLifecycle() {
+        return lifecycleRegistry;
     }
-
+/*
     private class ListViewAdapter extends ArrayAdapter<String> {
 
         ListViewAdapter(Context context) {
@@ -93,5 +94,5 @@ public class FilesActivity extends AppCompatActivity implements FilesView {
             return view;
         }
     }
-
+*/
 }
